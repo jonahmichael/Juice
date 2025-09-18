@@ -1,0 +1,104 @@
+/* Add this to the top to prevent horizontal scrollbars during animations */
+body {
+  overflow-x: hidden;
+}
+
+.hero {
+  /* ... existing styles */
+  flex-direction: column; /* Stack text vertically */
+}
+
+.product-section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around; /* Better spacing */
+  padding: 4rem;
+  text-align: left; /* Change text alignment */
+  color: #212529; /* Default text color */
+}
+
+/* Specific styling for odd/even sections to alternate layout */
+.product-section:nth-child(odd) {
+  flex-direction: row-reverse; /* Carrot and Beet sections will have image on the left */
+}
+
+.product-info {
+  flex: 1;
+  max-width: 450px; /* Constrain text width */
+}
+
+/* Add these new classes */
+.reveal-text {
+  opacity: 0;
+}
+
+.reveal-image {
+  opacity: 0;
+}
+
+.product-info h2 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.product-info p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.product-details {
+  list-style: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+
+.product-details li {
+  font-size: 1.5rem;
+  font-family: 'Poppins', sans-serif; /* Use the heading font for impact */
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.product-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-image img {
+  max-width: 300px; /* Adjust size as needed */
+  height: auto;
+}
+
+/* Special case for the light pineapple background */
+.product-section[style*="#d8f3dc"] {
+  color: #212529; /* Ensure text is dark on the light background */
+}
+
+/* Special case for the dark beet background */
+.product-section[style*="#e5383b"] {
+  color: #FFFFFF; /* Make text white on the dark background */
+}
+
+
+.hero, .product-section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+.product-section {
+  display: flex;
+  gap: 2rem;
+}
+.product-info, .product-image {
+  flex: 1;
+}
+.product-image img {
+  max-width: 50%;
+  height: auto;
+}

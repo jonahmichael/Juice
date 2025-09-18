@@ -1,12 +1,14 @@
 /* Add this to the top to prevent horizontal scrollbars during animations */
 body {
+  font-family: 'Satoshi', sans-serif; /* A clean, modern body font */
   overflow-x: hidden;
 }
 
-.hero {
-  /* ... existing styles */
-  flex-direction: column; /* Stack text vertically */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Clash Display', sans-serif; /* Our new, impactful heading font */
 }
+
+/* ... the rest of your CSS */
 
 .product-section {
   height: 100vh;
@@ -24,8 +26,8 @@ body {
 }
 
 .product-info {
-  flex: 1;
-  max-width: 450px; /* Constrain text width */
+  flex: 1; /* The text will take up 1 part of the space */
+  max-width: 500px; 
 }
 
 /* Add these new classes */
@@ -38,13 +40,14 @@ body {
 }
 
 .product-info h2 {
-  font-size: 4rem;
-  margin-bottom: 1rem;
+  font-size: 6rem; /* Much bigger! */
+  margin-bottom: 1.5rem;
+  line-height: 1.1; /* Tighten the line height */
 }
 
 .product-info p {
-  font-size: 1.2rem;
-  line-height: 1.6;
+  font-size: 1.25rem; /* Slightly bigger */
+  line-height: 1.7;
 }
 
 .product-details {
@@ -54,24 +57,28 @@ body {
 }
 
 .product-details li {
-  font-size: 1.5rem;
+  font-size: 2 rem;
   font-family: 'Poppins', sans-serif; /* Use the heading font for impact */
   margin-bottom: 1rem;
   font-weight: 700;
 }
 
+/* Change them to this */
+
+
 .product-image {
-  flex: 1;
+  flex: 1.5; /* The image will get 1.5 parts of the space */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* Change it to this for a dramatic effect */
 .product-image img {
-  max-width: 300px; /* Adjust size as needed */
+  max-width: 45vw; /* The image can be up to 45% of the viewport's width */
   height: auto;
+  min-width: 600px; /* Add a minimum width to prevent it from getting too small on weird screens */
 }
-
 /* Special case for the light pineapple background */
 .product-section[style*="#d8f3dc"] {
   color: #212529; /* Ensure text is dark on the light background */
@@ -82,15 +89,41 @@ body {
   color: #FFFFFF; /* Make text white on the dark background */
 }
 
-
-.hero, .product-section {
+/* Find and replace your existing .hero styles with this */
+.hero {
   height: 100vh;
+  width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
   text-align: center;
+  background-color: #f8f9fa; /* A clean, soft off-white */
+  padding: 1rem;
 }
+
+.hero h1 {
+  font-size: 8vw;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  margin: 0;
+  color: #212529;
+  /* --- ADD THESE LINES --- */
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.hero p {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  color: #6c757d;
+  max-width: 600px;
+  /* --- ADD THESE LINES --- */
+  opacity: 0;
+  transform: translateY(50px);
+}
+
 .product-section {
   display: flex;
   gap: 2rem;
@@ -107,7 +140,7 @@ body {
 @media (max-width: 767px) {
   .product-section, .product-section:nth-child(odd) {
     flex-direction: column; /* Stack image and text vertically */
-    padding: 2rem 1rem;     /* Adjust padding */
+    padding: 8rem 4rem;     /* Adjust padding */
     text-align: center;     /* Center text */
   }
 
@@ -120,10 +153,18 @@ body {
   }
 
   .product-image img {
-    max-width: 200px; /* Make the bottle image smaller */
+    max-width: 75vw; /* The image will take up 75% of the mobile screen's width */
+    min-width: 0; /* Reset the min-width for mobile */
   }
 
-  .product-details li {
-    font-size: 1.2rem;
-  }
+  .product-details li::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 15px; /* Space between icon and text */
+  background-color: currentColor; /* Inherits the text color */
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+}
 }

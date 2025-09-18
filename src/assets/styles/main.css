@@ -102,3 +102,28 @@ body {
   max-width: 50%;
   height: auto;
 }
+
+
+@media (max-width: 767px) {
+  .product-section, .product-section:nth-child(odd) {
+    flex-direction: column; /* Stack image and text vertically */
+    padding: 2rem 1rem;     /* Adjust padding */
+    text-align: center;     /* Center text */
+  }
+
+  .product-info h2 {
+    font-size: 2.5rem; /* Reduce heading size */
+  }
+
+  .product-info p {
+    font-size: 1rem;   /* Reduce paragraph size */
+  }
+
+  .product-image img {
+    max-width: 200px; /* Make the bottle image smaller */
+  }
+
+  .product-details li {
+    font-size: 1.2rem;
+  }
+}

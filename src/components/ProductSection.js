@@ -1,97 +1,73 @@
 import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger'; // We need to import ScrollTrigger here now
 
-const ProductSection = ({ juice }) => { // We'll add index later
+const ProductSection = ({ juice }) => {
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
   const textRef = useRef(null);
-  // Create refs for the new detail points
   const detailsRef = useRef([]);
 
-  // ... (imports and component definition)
-
-  // ... (imports and component definition)
-
   useEffect(() => {
-    // 1. Create a GSAP Context for our animations
     const ctx = gsap.context(() => {
-
-      // All our GSAP code will go inside here...
-
-      // Animation for Green Juice
-      if (juice.name === 'Green Goodness') {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top top',
-            end: '+=1500',
-            scrub: 1,
-            pin: true,
+      ScrollTrigger.matchMedia({
+        "(min-width: 768px)": function() {
+          if (juice.name === 'Green Goodness') {
+            const tl = gsap.timeline({
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: 'top top',
+                end: '+=1500',
+                scrub: 1,
+                pin: true,
+              }
+            });
+            tl.from(imageRef.current, { xPercent: -100, opacity: 0, ease: 'power2.inOut' })
+              .from(textRef.current, { xPercent: 100, opacity: 0, ease: 'power2.inOut' }, "<")
+              .from(detailsRef.current, { y: 50, opacity: 0, stagger: 0.3, ease: 'power2.out' });
           }
-        });
-
-        tl.from(imageRef.current, { xPercent: -100, opacity: 0, ease: 'power2.inOut' })
-          .from(textRef.current, { xPercent: 100, opacity: 0, ease: 'power2.inOut' }, "<")
-          .from(detailsRef.current, {
-            y: 50,
-            opacity: 0,
-            stagger: 0.3,
-            ease: 'power2.out'
+          else if (juice.name === 'Pineapple Power') {
+            const tl = gsap.timeline({
+              scrollTrigger: { trigger: sectionRef.current, start: 'top center+=100' }
+            });
+            tl.from([imageRef.current, textRef.current], {
+                opacity: 0, scale: 0.5, duration: 1.2, ease: 'elastic.out(1, 0.75)', stagger: 0.2
+            });
+          }
+          else {
+            const tl = gsap.timeline({
+              scrollTrigger: { trigger: sectionRef.current, start: 'top center+=100' }
+            });
+            tl.from([imageRef.current, textRef.current], {
+                y: 100, opacity: 0, duration: 1, stagger: 0.2, ease: 'power3.out'
+            });
+          }
+        },
+        "(max-width: 767px)": function() {
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top center+=100',
+            }
           });
-
-      }
-      // Animation for Pineapple Juice
-      else if (juice.name === 'Pineapple Power') {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top center+=100',
-          }
-        });
-
-        tl.from([imageRef.current, textRef.current], {
-            opacity: 0,
-            scale: 0.5,
-            duration: 1.2,
-            ease: 'elastic.out(1, 0.75)',
-            stagger: 0.2
-        });
-        
-      }
-      // Fallback animation for Carrot and Beet
-      else {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top center+=100',
-          }
-        });
-        tl.from([imageRef.current, textRef.current], {
-            y: 100,
-            opacity: 0,
-            duration: 1,
-            stagger: 0.2,
-            ease: 'power3.out'
-        });
-      }
-
-    }, sectionRef); // <-- 2. Scope the context to our component's main element
-
-    // 3. The Cleanup Function
-    return () => ctx.revert(); // <-- This is the magic line!
-
-  }, [juice.name]); // Dependency array remains the same
-
-  // ... (the return statement with your JSX)
-
-  // ... (the return statement with your JSX) // Re-run the effect if the juice name changes
+          tl.from([imageRef.current, textRef.current], {
+              opacity: 0,
+              y: 50,
+              duration: 1,
+              ease: 'power3.out',
+              stagger: 0.2
+          });
+        }
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, [juice.name]);
 
   return (
     <section className="product-section" style={{ backgroundColor: juice.color }} ref={sectionRef}>
       <div className="product-info" ref={textRef}>
         <h2>{juice.name}</h2>
         <p>{juice.description}</p>
-        {/* Render the details if they exist */}
         {juice.details && (
           <ul className="product-details">
             {juice.details.map((detail, i) => (

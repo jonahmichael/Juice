@@ -1,52 +1,22 @@
-// src/App.js - REPLACE THE ENTIRE FILE
+// src/App.js
 
 import React, { useLayoutEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollSmoother } from 'gsap/ScrollSmoother';
 
 import Hero from './components/Hero';
 import ProductSection from './components/ProductSection';
-import './assets/styles/main.css'; // We will use this file for all our styles
+import ProductDetailPage from './components/ProductDetailPage';
+import './assets/styles/main.css';
 
-// Import your images
-import greenJuice from './assets/images/green-juice.png';
-import pineappleJuice from './assets/images/pineapple-juice.png';
-import carrotJuice from './assets/images/carrot-juice.png';
-import beetJuice from './assets/images/beet-juice.png';
+// Import the single source of truth for our data
+import { juices } from './data/juices';
 
-// Register the GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-// The CLEANED UP data array. No more "details".
-const juices = [
-    {
-      name: 'Green Goodness',
-      description: 'A refreshing blend of green vegetables to kickstart your day.',
-      image: greenJuice,
-      color: '#2dcd17bb',
-    },
-    {
-      name: 'Pineapple Power',
-      description: 'A sweet and tangy mix that transports you to a tropical paradise.',
-      image: pineappleJuice,
-      color: '#f1ef40ff',
-    },
-    {
-      name: 'Carrot Kick',
-      description: 'Get your daily dose of vitamins with this vibrant and earthy carrot blend.',
-      image: carrotJuice,
-      color: '#f26b16ff',
-    },
-    {
-      name: 'Beet Boost',
-      description: 'A powerful and detoxifying juice to energize your body and mind.',
-      image: beetJuice,
-      color: '#c90d10ff',
-    }
-];
-
-function App() {
+const HomePage = () => {
   useLayoutEffect(() => {
     const smoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
@@ -63,13 +33,25 @@ function App() {
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <Hero />
-          {juices.map((juice, index) => (
-            <ProductSection key={index} juice={juice} />
+          {juices.map((juice) => (
+            <ProductSection key={juice.id} juice={juice} />
           ))}
         </div>
       </div>
     </div>
   );
 }
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        {/* Use the URL-friendly ID for the route */}
+        <Route path="/product/:productId" element={<ProductDetailPage />} />
+      </Routes>
+    </Router>
+  );
+};
 
 export default App;

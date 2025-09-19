@@ -21,7 +21,7 @@ const juices = [
       name: 'Green Goodness',
       description: 'A refreshing blend of green vegetables to kickstart your day.',
       image: greenJuice,
-      color: '#75d793ff',
+      color: '#2dcd17bb',
       details: [
         'Boosts Immunity',
         'Rich in Antioxidants',
@@ -32,19 +32,34 @@ const juices = [
       name: 'Pineapple Power',
       description: 'A sweet and tangy mix that transports you to a tropical paradise.',
       image: pineappleJuice,
-      color: '#f1ef40ff'
+      color: '#f1ef40ff',
+      details: [ // ADDED
+      'Rich in Vitamin C',
+      'Aids Digestion',
+      'Tropical Taste'
+    ]
     },
     {
       name: 'Carrot Kick',
       description: 'Get your daily dose of vitamins with this vibrant and earthy carrot blend.',
       image: carrotJuice,
-      color: '#e1691dff'
+      color: '#f26b16ff',
+      details: [ // ADDED
+      'Improves Vision',
+      'Source of Beta-Carotene',
+      'Promotes Glowing Skin'
+    ]
     },
     {
       name: 'Beet Boost',
       description: 'A powerful and detoxifying juice to energize your body and mind.',
       image: beetJuice,
-      color: '#bb3537ff'
+      color: '#c90d10ff',
+      details: [ // ADDED
+      'Boosts Stamina',
+      'Supports Heart Health',
+      'Natural Detox'
+    ]
     }
 ];
 
@@ -63,8 +78,11 @@ function App() {
     return () => smoother.kill();
   }, []);
 
-  return (
+   return (
     <div className="App">
+      {/* THIS IS THE NEW WATERMARK ELEMENT */}
+      <div className="watermark">Jonah Michael</div>
+
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <Hero />
@@ -76,5 +94,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

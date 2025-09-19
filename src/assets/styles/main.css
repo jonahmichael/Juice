@@ -50,18 +50,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.7;
 }
 
-.product-details {
-  list-style: none;
-  padding: 0;
-  margin-top: 2rem;
-}
 
-.product-details li {
-  font-size: 2 rem;
-  font-family: 'Poppins', sans-serif; /* Use the heading font for impact */
-  margin-bottom: 1rem;
-  font-weight: 700;
-}
 
 /* Change them to this */
 
@@ -80,14 +69,21 @@ h1, h2, h3, h4, h5, h6 {
   min-width: 600px; /* Add a minimum width to prevent it from getting too small on weird screens */
 }
 /* Special case for the light pineapple background */
-.product-section[style*="#d8f3dc"] {
-  color: #212529; /* Ensure text is dark on the light background */
+.product-section[style*="#52b788"] {
+  color: #FFFFFF;
 }
 
-/* Special case for the dark beet background */
-.product-section[style*="#e5383b"] {
-  color: #FFFFFF; /* Make text white on the dark background */
+/* Carrot Kick Text Color */
+.product-section[style*="#ff8c42"] {
+  color: #FFF5E1; /* A warm, creamy off-white */
 }
+
+/* Beet Boost Text Color (already had this, but good to confirm) */
+.product-section[style*="#e5383b"] {
+  color: #FFFFFF;
+}
+
+
 
 /* Find and replace your existing .hero styles with this */
 .hero {
@@ -136,6 +132,73 @@ h1, h2, h3, h4, h5, h6 {
   height: auto;
 }
 
+.product-title {
+  font-size: 9vw; /* A very bold and impactful size */
+  line-height: 1;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Also increase the description size for balance */
+.product-description {
+  font-size: 1.5rem; /* More readable and substantial */
+  max-width: 500px; /* Allow a little more width */
+  margin-top: 2rem;
+  line-height: 1.7;
+}
+
+.watermark {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  font-family: 'Clash Display', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #000;
+  opacity: 0.50; /* The 50% opacity you requested */
+  z-index: 9999; /* Ensures it stays on top of everything */
+  pointer-events: none; /* Allows clicks to pass through it */
+}
+
+.buy-button {
+  display: inline-block;
+  font-family: 'Clash Display', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: currentColor; /* Inherits the section's text color */
+  background-color: transparent;
+  border: 2px solid currentColor;
+  border-radius: 50px;
+  padding: 0.75rem 2rem;
+  margin-top: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start; /* Aligns the button to the left */
+}
+
+.buy-button:hover {
+  background-color: currentColor;
+  color: #000; /* On hover, text turns black for contrast */
+  transform: translateY(-5px); /* A subtle lift effect */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-arrow {
+  position: absolute;
+  bottom: 2rem;
+  cursor: pointer;
+  animation: bounce 2s infinite;
+}
+
+.scroll-arrow svg {
+  color: #6c757d; /* Matches the subtitle color */
+  width: 3rem;
+  height: 3rem;
+}
+
 
 @media (max-width: 767px) {
   .product-section, .product-section:nth-child(odd) {
@@ -159,7 +222,7 @@ h1, h2, h3, h4, h5, h6 {
 
   .product-details li::before {
   content: '';
-  display: inline-block;
+  display: none;
   width: 24px;
   height: 24px;
   margin-right: 15px; /* Space between icon and text */
@@ -167,4 +230,36 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
 }
+/* Add this anywhere in your main.css */
+
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+.image-details-container {
+  flex: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* Needed for positioning the details */
+}
+
+/* ADD THIS NEW CSS FOR THE BUTTON */
+
+/* On mobile, center the button */
+@media (max-width: 767px) {
+  .buy-button {
+    align-self: center;
+  }
+}
+
 }

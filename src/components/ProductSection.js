@@ -6,52 +6,55 @@ const ProductSection = ({ juice }) => {
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
   const textRef = useRef(null);
-  const detailsRef = useRef([]);
+  const titleTopRef = useRef(null);
+  const titleBottomRef = useRef(null);
+  const buttonRef = useRef(null);
 
-  // Effect for all scroll-triggered animations
   useEffect(() => {
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        // Desktop Animations (screens wider than 768px)
         "(min-width: 768px)": function() {
+          // --- Green Goodness Animation (Pinning) ---
           if (juice.name === 'Green Goodness') {
             const tl = gsap.timeline({
               scrollTrigger: {
                 trigger: sectionRef.current,
                 start: 'top top',
-                end: '+=1500',
+                end: 'bottom bottom',
                 scrub: 1,
                 pin: true,
               }
             });
             tl.from(imageRef.current, { xPercent: -100, opacity: 0, ease: 'power2.inOut' })
-              .from(textRef.current, { xPercent: 100, opacity: 0, ease: 'power2.inOut' }, "<")
-              .from(detailsRef.current, { y: 50, opacity: 0, stagger: 0.3, ease: 'power2.out' });
+              .from([titleTopRef.current, titleBottomRef.current], { opacity: 0, y: 50, stagger: 0.1 }, "<")
+              .from(textRef.current.querySelector('.product-description'), { opacity: 0, y: 20 })
+              .from(buttonRef.current, { opacity: 0, y: 20 }, "-=0.25");
           }
+          // --- Pineapple Power Animation (Bouncy) ---
           else if (juice.name === 'Pineapple Power') {
             const tl = gsap.timeline({
-              scrollTrigger: { trigger: sectionRef.current, start: 'top center+=100' }
+              scrollTrigger: { trigger: sectionRef.current, start: 'top center' }
             });
-            tl.from([imageRef.current, textRef.current], {
-                opacity: 0, scale: 0.5, duration: 1.2, ease: 'elastic.out(1, 0.75)', stagger: 0.2
-            });
+            tl.from(imageRef.current, { scale: 0.5, opacity: 0, ease: 'elastic.out(1, 0.75)', duration: 1.5 })
+              .from([titleTopRef.current, titleBottomRef.current], { opacity: 0, y: 50, stagger: 0.1 }, "-=1")
+              .from(textRef.current.querySelector('.product-description'), { opacity: 0, y: 20 })
+              .from(buttonRef.current, { opacity: 0, y: 20 }, "-=0.25");
           }
+          // --- Fallback Animation (Slide Up) ---
           else {
             const tl = gsap.timeline({
-              scrollTrigger: { trigger: sectionRef.current, start: 'top center+=100' }
+              scrollTrigger: { trigger: sectionRef.current, start: 'top center' }
             });
-            tl.from([imageRef.current, textRef.current], {
-                y: 100, opacity: 0, duration: 1, stagger: 0.2, ease: 'power3.out'
-            });
+            tl.from(imageRef.current, { y: 100, opacity: 0, duration: 1 })
+              .from([titleTopRef.current, titleBottomRef.current], { opacity: 0, y: 50, stagger: 0.1 }, "-=0.5")
+              .from(textRef.current.querySelector('.product-description'), { opacity: 0, y: 20 })
+              .from(buttonRef.current, { opacity: 0, y: 20 }, "-=0.25");
           }
         },
-        // Mobile Animations (screens 767px wide or less)
         "(max-width: 767px)": function() {
+          // Mobile animation remains simple and clean
           const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top center+=100',
-            }
+            scrollTrigger: { trigger: sectionRef.current, start: 'top center+=100' }
           });
           tl.from([imageRef.current, textRef.current], {
               opacity: 0, y: 50, duration: 1, ease: 'power3.out', stagger: 0.2
@@ -59,56 +62,44 @@ const ProductSection = ({ juice }) => {
         }
       });
     }, sectionRef);
-
     return () => ctx.revert();
   }, [juice.name]);
 
-
-  // Effect for the subtle mouse-move interaction
+  // Keep the mouse-move effect
   useEffect(() => {
+    // ... (This entire useEffect for mouse-move stays exactly the same)
     const section = sectionRef.current;
     if (!section) return;
-
     const handleMouseMove = (e) => {
       const { clientX, clientY } = e;
       const { top, left, width, height } = section.getBoundingClientRect();
       const x = clientX - left - width / 2;
       const y = clientY - top - height / 2;
-
       gsap.to(imageRef.current, {
-        x: x * 0.05,
-        y: y * 0.05,
-        rotationY: x * 0.03,
-        rotationX: -y * 0.03,
-        ease: 'power2.out',
-        duration: 1
+        x: x * 0.05, y: y * 0.05, rotationY: x * 0.03, rotationX: -y * 0.03, ease: 'power2.out', duration: 1
       });
     };
-
     section.addEventListener('mousemove', handleMouseMove);
-
-    // Cleanup to prevent memory leaks
     return () => {
       section.removeEventListener('mousemove', handleMouseMove);
     };
-  }, []); // Empty dependency array ensures this runs only once
-
+  }, []);
 
   return (
     <section className="product-section" style={{ backgroundColor: juice.color }} ref={sectionRef}>
-      <div className="product-info" ref={textRef} data-speed="0.9">
-        <h2>{juice.name}</h2>
-        <p>{juice.description}</p>
-        {juice.details && (
-          <ul className="product-details">
-            {juice.details.map((detail, i) => (
-              <li key={i} ref={el => detailsRef.current[i] = el}>{detail}</li>
-            ))}
-          </ul>
-        )}
-      </div>
-      <div className="product-image" ref={imageRef} data-speed="1.1">
+      <div className="product-image" ref={imageRef} data-speed="0.9">
         <img src={juice.image} alt={juice.name} />
+      </div>
+
+      <div className="product-text-content" ref={textRef} data-speed="1.05">
+        <h2 className="product-title">
+          <span ref={titleTopRef}>{juice.name.split(' ')[0] || ''}</span>
+          <span ref={titleBottomRef}>{juice.name.split(' ')[1] || ''}</span>
+        </h2>
+        <p className="product-description">{juice.description}</p>
+        <button className="buy-button" ref={buttonRef}>
+          Buy Now
+        </button>
       </div>
     </section>
   );
